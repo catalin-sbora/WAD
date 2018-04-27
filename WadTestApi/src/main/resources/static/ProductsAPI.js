@@ -78,13 +78,13 @@ function ProductsAPI() {
     };
     
     
-    this.getAllGroups = function () {
-        var apiURL = "/api/groups";
+    this.getAllCategories = function () {
+        var apiURL = "/Categories";
         return doAsyncGet(apiURL);
     };
 
-    this.getStudentsInGroup = function (groupId) {
-        var apiURL = "/api/groups/" + groupId + "/students";
+    this.getProductsInCategory = function (categoryId) {
+        var apiURL = "/Categories/" + categoryId + "/Products";
         return doAsyncGet(apiURL);
     };
 

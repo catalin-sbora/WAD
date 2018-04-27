@@ -5,9 +5,13 @@
  */
 package com.wad.demo;
 
+import com.wad.datamodels.Category;
+import com.wad.datamodels.Product;
+import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,49 +19,51 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import com.wad.datamodels.Product;
-import java.util.ArrayList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  *
  * @author catalin
  */
 @RestController
-@RequestMapping("/Products")
-
-public class ProductsController {   
+@RequestMapping("/Categories")
+public class CategoriesController {
     
-    private ProductsRepository productsRepository;
+    private CategoriesRepository categoriesRepo;
     
-    @Autowired
-    ProductsController(ProductsRepository repo)
+    public CategoriesController(CategoriesRepository repo)
     {
-        productsRepository=repo;
+        categoriesRepo = repo;
     }
     @GetMapping()
-    public List<Product> list() {
-        
-        List<Product> retList = productsRepository.findAll();
-        
-        //retList.add(new Product(Integer.toUnsignedLong(1), "TestProd number 2", "This is a description for a second test product", 12.0 ));
-            
-        return retList;
+    public List<Category> list() {
+        return categoriesRepo.findAll();
     }
     
     @GetMapping("/{id}")
-    public Object get(@PathVariable String id) {
+    public Category get(@PathVariable String id) {
         return null;
     }
     
+    @GetMapping("/{id}/Products")
+    public List<Product> get(@PathVariable Long id)
+    {
+        List<Product> retList = new ArrayList<>();
+        Optional<Category> currentCategory = categoriesRepo.findById(id);
+        if (currentCategory != null && currentCategory.isPresent())
+        {
+            retList = currentCategory.get().getProducts();
+        }
+        
+        return retList;
+    }
+    
     @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable String id, @RequestBody Object input) {
+    public ResponseEntity<?> put(@PathVariable String id, @RequestBody Category input) {
         return null;
     }
     
     @PostMapping
-    public ResponseEntity<?> post(@RequestBody Object input) {
+    public ResponseEntity<?> post(@RequestBody Category input) {
         return null;
     }
     

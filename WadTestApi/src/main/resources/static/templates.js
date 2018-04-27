@@ -22,18 +22,11 @@ function getProductHtml(initialTemplate, product)
     
 }
 
-function fillInProducts(container, products)
+function getCategoryItemHtml(initialTemplate, category)
 {
+    var template = initialTemplate;
     
-    $.ajax({
-            url: "productTemplate.html"
-        }).done(
-            function (response)
-            {
-                for (var i = 0; i < products.length; i++) {
-                        productHtml = getProductHtml(response, products[i]);
-                        $(container).append(productHtml);
-                    }
-            }
-        );
+    template = template.replace("{categoryId}", "" + category.id);
+    template = template.replace("{categoryName}", category.name);
+    return '<li>' + template + '</li>';
 }

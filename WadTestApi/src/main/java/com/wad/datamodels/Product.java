@@ -5,29 +5,42 @@
  */
 package com.wad.datamodels;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 /**
  *
  * @author catalin
  */
+@Entity
 public class Product 
 {
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private String description;
     private double price;
-
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+    
     public Product()
     {
     
     }
     
-    public Product(Long id, String name, String desc, double price)
+    /*public Product(Long id, String name, String desc, double price)
     {
         this.setId(id);
         this.setName(name);
         this.setDescription(desc);
         this.setPrice(price);
-    }
+    }*/
     public Long getId() {
         return id;
     }
